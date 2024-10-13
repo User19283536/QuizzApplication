@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["Title"] = "Quiz Results";
+}
+
+<h1>Quiz Results</h1>
+
+<p>You got @ViewBag.CorrectAnswers out of @ViewBag.TotalQuestions questions correct!</p>
+
+<a href="@Url.Action("StartQuiz", "Questions")" class="btn btn-primary">Try Again</a>

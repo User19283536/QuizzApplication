@@ -1,22 +1,22 @@
 ﻿@model IEnumerable<QuizzApplication.Models.Question>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Questions Database";
 }
 
-<h1>Index</h1>
+<h1>Questions Database</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Add New Question</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.QuestionText)
+               <p>Questions</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AnswerText)
+                <p>Answers</p>
             </th>
             <th></th>
         </tr>

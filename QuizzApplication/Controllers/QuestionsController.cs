@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,8 @@ using QuizzApplication.Models;
 
 namespace QuizzApplication.Controllers
 {
+
+    //Warszawa@Warszawa.eu Warszawa2024!
     public class QuestionsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -56,6 +59,7 @@ namespace QuizzApplication.Controllers
 
 
         // GET: Questions
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Question.ToListAsync());
@@ -68,6 +72,7 @@ namespace QuizzApplication.Controllers
         }
 
         // GET: Questions/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -86,6 +91,7 @@ namespace QuizzApplication.Controllers
         }
 
         // GET: Questions/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -96,6 +102,7 @@ namespace QuizzApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("Id,QuestionText,AnswerText")] Question question)
         {
             if (ModelState.IsValid)
@@ -108,6 +115,7 @@ namespace QuizzApplication.Controllers
         }
 
         // GET: Questions/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -128,6 +136,7 @@ namespace QuizzApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,QuestionText,AnswerText")] Question question)
         {
             if (id != question.Id)
@@ -159,6 +168,7 @@ namespace QuizzApplication.Controllers
         }
 
         // GET: Questions/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -177,6 +187,7 @@ namespace QuizzApplication.Controllers
         }
 
         // POST: Questions/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

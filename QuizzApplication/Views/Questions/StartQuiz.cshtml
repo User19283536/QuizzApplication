@@ -4,38 +4,48 @@
     ViewData["Title"] = "StartQuiz";
 }
 
-<h1>Math quiz!</h1>
+<h1>Your quiz!</h1>
 
 <p>
     <p>Good luck!</p>
 </p>
 
-<form asp-action="SubmitQuiz" method="post">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    <p>Problems</p>
-                </th>
-                <th>
-                    <p>Answers</p>
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-    @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.QuestionText)
-                </td>
-                <td>
-                        <input type="text" name="UserAnswers[@item.Id]" class="form-control" style="width: 300px;"  />
-                </td>
-            </tr>
-    }
-        </tbody>
-    </table>
 
-    <button type="submit" class="btn btn-primary">Complete Quiz</button>
-</form>
+@if (Model != null && Model.Any())
+{
+    <form asp-action="SubmitQuiz" method="post">
+        @Html.AntiForgeryToken()
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <p>Problems</p>
+                    </th>
+                    <th>
+                        <p>Answers</p>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+        @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QuestionText)
+                    </td>
+                    <td>
+                            <input type="text" name="UserAnswers[@item.Id]" class="form-control" style="width: 300px;"  />
+                    </td>
+                </tr>
+        }
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-primary">Complete Quiz</button>
+    </form>
+}
+else
+{
+        <p>There are currently no questions in your quiz. Contact your tutor.</p>
+}
+

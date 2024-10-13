@@ -25,6 +25,12 @@ namespace QuizzApplication.Controllers
         [HttpPost]
         public IActionResult SubmitQuiz(Dictionary<int, string>UserAnswers)
         {
+
+            if (UserAnswers == null || !UserAnswers.Any())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var questions = _context.Question.ToList();
 
             int correctAnswers = 0;
@@ -37,7 +43,7 @@ namespace QuizzApplication.Controllers
                     var userAnswer = UserAnswers[question.Id];
                     var correctAnswer = question.AnswerText;
 
-                    if (userAnswer == correctAnswer.ToString())
+                    if (userAnswer == correctAnswer)
                     {
                         correctAnswers++;
                     }
@@ -107,10 +113,15 @@ namespace QuizzApplication.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                question.CreatedBy = User.Identity.Name; 
+                question.CreatedAt = DateTime.UtcNow;
+
                 _context.Add(question);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
+            } 
+          
             return View(question);
         }
 
@@ -148,6 +159,13 @@ namespace QuizzApplication.Controllers
             {
                 try
                 {
+
+                    var oldQuestion = await _context.Question.AsNoTracking().FirstOrDefaultAsync(q => q.Id == id);
+
+                    question.CreatedBy = oldQuestion.CreatedBy;
+                    question.CreatedAt = oldQuestion.CreatedAt;
+                    question.ModifiedBy = User.Identity.Name;
+                    question.ModifiedAt = DateTime.UtcNow;
                     _context.Update(question);
                     await _context.SaveChangesAsync();
                 }
